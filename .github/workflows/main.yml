@@ -99,3 +99,23 @@ jobs:
       with:
         name: helm-artifacts
         path: .
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v4.2.0
+
+    - name: Lint Helm
+      run: helm lint ./kube2py/
+
+    - name: Template Helm
+      run: helm template todoapp ./todoapp -f ./todoapp/values.yaml
+
+    - name: Package Helm
+      run: helm package ./todoapp/
+
+    - name: Upload Helm package
+      uses: actions/upload-artifact@v4
+      with:
+        name: helm-package
+        path: ./*.tgz
+
+
