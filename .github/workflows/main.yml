@@ -92,6 +92,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.ref_name == 'main' }}
     needs: python-ci
+    defaults:
+      run:
+        working-directory: ./helm-charts
     steps:
 
     - uses: actions/download-artifact@v4
@@ -107,7 +110,7 @@ jobs:
       run: helm lint ./todoapp/
 
     - name: Template Helm
-      run: helm template todoapp ./todoapp -f ./todoapp/values.yaml
+      run: helm template todoapp ./todoapp/ -f ./todoapp/values.yaml
 
     - name: Package Helm
       run: helm package ./todoapp/
